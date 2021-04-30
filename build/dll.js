@@ -1,5 +1,4 @@
-const { open } = require("fs/promises");
-const { closeSync } = require("fs");
+const { readFile } = require("fs/promises");
 const path = require("path");
 const { webpack, DllPlugin } = require("webpack");
 const {
@@ -52,11 +51,7 @@ function command(options) {
 
 command.hasDll = async function hasDll() {
   try {
-    const fd = await open(
-      path.join(CONTEXT, DLL_OUTPUT_PATH, DLL_MANIFEST_NAME)
-    );
-
-    closeSync(fd);
+    await readFile(path.join(CONTEXT, DLL_OUTPUT_PATH, DLL_MANIFEST_NAME));
 
     return true;
   } catch {

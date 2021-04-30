@@ -25,7 +25,6 @@ class Config extends BaseConfig {
     const rules = this.config.module.rules;
 
     const styleIndex = rules.findIndex((item) => item.test.test("test.css"));
-    // TODO: use minicssextractloader
 
     if (styleIndex >= 0) {
       rules[styleIndex].use.push("postcss-loader");
