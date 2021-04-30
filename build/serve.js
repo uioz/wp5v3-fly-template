@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const Server = require("webpack-dev-server");
 const DllGenerator = require("./dll");
+const webpackCdnPlugin = require("webpack-cdn-plugin");
 
 const {
   DEV,
@@ -58,6 +59,30 @@ class Config extends BaseConfig {
         context: path.join(CONTEXT, DLL_OUTPUT_PATH),
         manifest: path.join(CONTEXT, DLL_OUTPUT_PATH, DLL_MANIFEST_NAME),
         name: "vendor_lib",
+      }),
+      new webpackCdnPlugin({
+        // 因为 DevServer 没有托管 node_modules
+        // 所以使用默认的生产环境配置从 CDN 上加载
+        // 替换为 jsdelivr
+        prodUrl: "https://cdn.jsdelivr.net/npm/:name@:version/:path",
+        modules: [
+          {
+            name: "vue",
+            var: "Vue",
+            path: "dist/vue.runtime.global.js",
+          },
+          {
+            name: "vue-router",
+            var: "VueRouter",
+            path: "dist/vue-router.global.js",
+          },
+          {
+            name: "vuex",
+            var: "Vuex",
+            path: "dist/vuex.global.js",
+          },
+        ],
+        publicPath: "/node_modules",
       })
     );
 
@@ -83,6 +108,15 @@ class Config extends BaseConfig {
 
   devtool() {
     this.config.devtool = "eval-cheap-module-source-map";
+
+    return this;
+  }
+
+  externals() {
+    this.config.externals = {
+      vue: "Vue",
+      "vue-router": "VueRouter",
+    };
 
     return this;
   }
