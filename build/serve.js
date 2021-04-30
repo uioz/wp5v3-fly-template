@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const Server = require("webpack-dev-server");
+const DllGenerator = require("./dll");
 
 const {
   DEV,
@@ -11,6 +12,8 @@ const {
   DEVSERVER_BASE,
   DEVSERVER_PORT,
   DEVSERVER_HOST,
+  DLL_OUTPUT_PATH,
+  DLL_MANIFEST_NAME,
 } = require("./constant");
 
 const { BaseConfig } = require("./base");
@@ -40,6 +43,20 @@ class Config extends BaseConfig {
     return this;
   }
 
+  plugins() {
+    super.plugins();
+
+    this.config.plugins.push(
+      new webpack.DllReferencePlugin({
+        context: path.join(CONTEXT, DLL_OUTPUT_PATH),
+        manifest: path.join(CONTEXT, DLL_OUTPUT_PATH, DLL_MANIFEST_NAME),
+        name: "vendor_lib",
+      })
+    );
+
+    return this;
+  }
+
   devtool() {
     this.config.devtool = "eval";
 
@@ -53,7 +70,11 @@ class Config extends BaseConfig {
     return this;
   }
 
-  runServer() {
+  async runServer() {
+    if (!(await DllGenerator.hasDll())) {
+      await DllGenerator();
+    }
+
     new Server(webpack(this.config), {
       contentBase: path.join(this.context, DEVSERVER_BASE),
       contentBasePublicPath: DEVSERVER_BASE_PUBLIC_PATH,

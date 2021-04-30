@@ -1,0 +1,67 @@
+const { open } = require("fs/promises");
+const { closeSync } = require("fs");
+const path = require("path");
+const { webpack, DllPlugin } = require("webpack");
+const {
+  CONTEXT,
+  DEV,
+  DLL_OUTPUT_PATH,
+  DLL_MANIFEST_NAME,
+} = require("./constant");
+
+const config = {
+  mode: "development",
+  devtool: "source-map",
+  context: CONTEXT,
+  entry: ["vue", "vuex", "vue-router", "element-plus"],
+  resolve: {
+    extensions: [".js"],
+  },
+  output: {
+    path: path.join(CONTEXT, DLL_OUTPUT_PATH),
+    filename: "dll.[name].js",
+    library: "[name]_[fullhash]",
+  },
+  plugins: [
+    new DllPlugin({
+      name: "vendor_lib",
+      path: path.join(CONTEXT, DLL_OUTPUT_PATH, DLL_MANIFEST_NAME),
+    }),
+  ],
+};
+
+function command(options) {
+  process.env.NODE_ENV = DEV;
+
+  return new Promise((resolve, reject) => {
+    webpack(config).run((error, stats) => {
+      if (error) {
+        return reject(error);
+      }
+
+      console.log(
+        stats.toString({
+          colors: true, // Shows colors in the console
+        })
+      );
+
+      resolve();
+    });
+  });
+}
+
+command.hasDll = async function hasDll() {
+  try {
+    const fd = await open(
+      path.join(CONTEXT, DLL_OUTPUT_PATH, DLL_MANIFEST_NAME)
+    );
+
+    closeSync(fd);
+
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+module.exports = command;
