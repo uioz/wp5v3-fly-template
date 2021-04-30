@@ -45,6 +45,7 @@ class Config extends BaseConfig {
     output.filename = "[name].js";
     output.assetModuleFilename = "[path][base]";
     output.hotUpdateChunkFilename = "[name].[id].hot-update.js";
+    output.pathinfo = false;
 
     return this;
   }
@@ -63,8 +64,25 @@ class Config extends BaseConfig {
     return this;
   }
 
+  optimization() {
+    this.config.optimization = {
+      // down below is webpack recommendation
+      runtimeChunk: true,
+      removeAvailableModules: false,
+      removeEmptyChunks: false,
+      splitChunks: false,
+      // not webpack recommendation may cuz issue probably
+      innerGraph: false,
+      sideEffects: false,
+      mergeDuplicateChunks: false,
+      mangleWasmImports: false,
+    };
+
+    return this;
+  }
+
   devtool() {
-    this.config.devtool = "eval";
+    this.config.devtool = "eval-cheap-module-source-map";
 
     return this;
   }

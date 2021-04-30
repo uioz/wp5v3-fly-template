@@ -95,6 +95,7 @@ exports.BaseConfig = class BaseConfig {
         "@": "./src",
       },
       extensions: [".vue", ".js", ".mjs"],
+      symlinks: false,
     };
 
     return this;
