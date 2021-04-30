@@ -8,7 +8,5 @@
  */
 
 module.exports = {
-  plugins: [
-    // TODO: use autoprefixer
-  ],
+  plugins: [require("autoprefixer")],
 };
