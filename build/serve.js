@@ -49,7 +49,7 @@ class Config extends BaseConfig {
   generate() {
     super.generate();
 
-    this.devtool().output();
+    this.devtool();
     return this;
   }
 

@@ -135,6 +135,6 @@ exports.BaseConfig = class BaseConfig {
 
   generate() {
     this.output().module().optimization().resolve().plugins().cache();
-    return this.config;
+    return this;
   }
 };

@@ -1,4 +1,6 @@
 const webpack = require("webpack");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 const { OUTPUT_PUBLIC_PATH, CONTEXT, PROD } = require("./constant");
 
@@ -18,15 +20,18 @@ class Config extends BaseConfig {
   module() {
     super.module();
 
+    //  TODO: may use webpack chain later
+
     const rules = this.config.module.rules;
 
     const styleIndex = rules.findIndex((item) => item.test.test("test.css"));
     // TODO: use minicssextractloader
 
-    //  TODO: may use webpack chain later
     if (styleIndex >= 0) {
       rules[styleIndex].use.push("postcss-loader");
-      // css-loader
+      // to replace style-loader to MiniCssExtractPlugin.loader
+      rules[styleIndex].use[0] = MiniCssExtractPlugin.loader;
+      // this for css-loader
       delete rules[styleIndex].use[1].options.modules.localIdentName;
     }
 
@@ -36,16 +41,22 @@ class Config extends BaseConfig {
   plugins() {
     super.plugins();
 
-    // TODO: use extract css later
-    // TODO: use compressor later
+    this.config.plugins.push(
+      new MiniCssExtractPlugin({
+        filename: "[name].[contenthash].css",
+        chunkFilename: "[id].[contenthash].css",
+      })
+    );
 
     return this;
   }
 
-  generate() {
-    super.generate();
+  optimization() {
+    super.optimization();
 
-    this.module().plugins();
+    Object.assign(this.config.optimization, {
+      minimizer: [`...`, new CssMinimizerPlugin()],
+    });
 
     return this;
   }
