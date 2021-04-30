@@ -30,6 +30,12 @@ class Config extends BaseConfig {
     this.host = host;
   }
 
+  target() {
+    // see https://github.com/webpack/webpack-dev-server/issues/2758#issuecomment-710086019
+    this.config.target = "web";
+    return this;
+  }
+
   output() {
     super.output();
 
@@ -66,7 +72,7 @@ class Config extends BaseConfig {
   generate() {
     super.generate();
 
-    this.devtool();
+    this.devtool().target();
     return this;
   }
 
