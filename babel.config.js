@@ -1,7 +1,9 @@
 // https://github.com/babel/babel-loader
 // https://babeljs.io/docs/en/config-files#config-function-api
 
-module.exports = {
+const { DEV } = require("./build/constant");
+
+const baseConfig = {
   presets: ["@babel/preset-env"],
   plugins: [
     [
@@ -21,4 +23,15 @@ module.exports = {
       },
     ],
   ],
+};
+
+module.exports = function (api) {
+  if (api.env() === DEV) {
+    delete baseConfig.presets;
+    baseConfig.plugins.shift();
+  }
+
+  api.cache(true);
+
+  return baseConfig;
 };
