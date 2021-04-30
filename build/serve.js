@@ -18,15 +18,26 @@ const { BaseConfig } = require("./base");
 class Config extends BaseConfig {
   /**
    *
-   * @param {any} options
-   * @param {string} context
-   * @param {string} outputPublicPath
+   * @param {any} param0
    */
   constructor({ context, outputPublicPath, mode, port, host }) {
     super(context, outputPublicPath);
     this.config.mode = mode;
     this.port = port;
     this.host = host;
+  }
+
+  output() {
+    super.output();
+
+    const output = this.config.output;
+
+    output.chunkFilename = "[name].[id].js";
+    output.filename = "[name].js";
+    output.assetModuleFilename = "[path][base]";
+    output.hotUpdateChunkFilename = "[name].[id].hot-update.js";
+
+    return this;
   }
 
   devtool() {
@@ -38,7 +49,7 @@ class Config extends BaseConfig {
   generate() {
     super.generate();
 
-    this.devtool();
+    this.devtool().output();
     return this;
   }
 
@@ -66,17 +77,13 @@ class Config extends BaseConfig {
 module.exports = function (options) {
   process.env.NODE_ENV = DEV;
 
-  new Config(
-    {
-      context: CONTEXT,
-      outputPublicPath: OUTPUT_PUBLIC_PATH,
-      mode: DEV,
-      port: options?.port ?? DEVSERVER_PORT,
-      host: options?.host ?? DEVSERVER_HOST,
-    },
-    CONTEXT,
-    OUTPUT_PUBLIC_PATH
-  )
+  new Config({
+    context: CONTEXT,
+    outputPublicPath: OUTPUT_PUBLIC_PATH,
+    mode: DEV,
+    port: options?.port ?? DEVSERVER_PORT,
+    host: options?.host ?? DEVSERVER_HOST,
+  })
     .generate()
     .runServer();
 };

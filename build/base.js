@@ -42,6 +42,16 @@ exports.BaseConfig = class BaseConfig {
           loader: "vue-loader",
         },
         {
+          test: /\.(png|svg|jpg|jpeg|gif|woff|woff2|eot|ttf|otf)$/i,
+          type: "asset",
+          exclude: /static/,
+          parser: {
+            dataUrlCondition: {
+              maxSize: 4 * 1024, // 4kb
+            },
+          },
+        },
+        {
           test: /(\.css|\.scss)$/i,
           include: [/[\\/]src[\\/]/i, /element-plus/i],
           use: [
@@ -72,16 +82,6 @@ exports.BaseConfig = class BaseConfig {
               },
             },
           ],
-        },
-        {
-          test: /\.(png|svg|jpg|jpeg|gif|woff|woff2|eot|ttf|otf)$/i,
-          type: "asset",
-          exclude: /static/,
-          parser: {
-            dataUrlCondition: {
-              maxSize: 4 * 1024, // 4kb
-            },
-          },
         },
       ],
     };
