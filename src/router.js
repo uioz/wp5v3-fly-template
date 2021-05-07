@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
-import App from "./App.vue";
-import Home from "./Home.vue";
+import Index from "./views/index/index.vue";
+import Home from "./views/home/index.vue";
 
 export default createRouter({
   history: createWebHistory(),
   routes: [
     {
       path: "/",
-      component: App,
+      component: Index,
     },
     {
       path: "/home",
