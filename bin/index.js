@@ -20,4 +20,6 @@ program.command("serve").action(require("../build/serve"));
 
 program.command("gen-dll").action(require("../build/dll"));
 
+program.command("clean").action(require("../build/clean"));
+
 program.parse(process.argv);

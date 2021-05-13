@@ -38,6 +38,7 @@
   "dependencies": {
     "@babel/runtime": "^7.14.0",
     "@babel/runtime-corejs3": "^7.14.0",
+    "axios": "^0.21.1",
     "element-plus": "^1.0.2-beta.44",
     "vue": "^3.0.11",
     "vue-router": "^4.0.6",

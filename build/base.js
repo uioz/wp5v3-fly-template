@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
+const { CACHE_DIR } = require("./constant");
 
 exports.BaseConfig = class BaseConfig {
   constructor(context, outputPublicPath) {
@@ -127,7 +128,7 @@ exports.BaseConfig = class BaseConfig {
   cache() {
     this.config.cache = {
       type: "filesystem",
-      cacheDirectory: path.join(this.context, ".cache"),
+      cacheDirectory: path.join(this.context, CACHE_DIR),
       maxAge: 604800000, // a week
     };
 

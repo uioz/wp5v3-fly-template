@@ -9,5 +9,5 @@
   - [ ] prod support
 4. https://webpack.js.org/plugins/automatic-prefetch-plugin/
 5. https://webpack.js.org/guides/build-performance/
-6. disable babel in dev mode
+6. ~~disable babel in dev mode~~ (can't do this cuz we need use plugins)
 

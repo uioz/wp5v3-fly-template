@@ -81,6 +81,11 @@ class Config extends BaseConfig {
             var: "Vuex",
             path: "dist/vuex.global.js",
           },
+          {
+            name: "axios",
+            var: "axios",
+            path: "dist/axios.min.js",
+          },
         ],
         publicPath: "/node_modules",
       })
