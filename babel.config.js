@@ -22,6 +22,15 @@ const baseConfig = {
         },
       },
     ],
+    [
+      "import",
+      {
+        libraryName: "@icon-park/vue-next",
+        libraryDirectory: "es/icons",
+        camel2DashComponentName: false,
+      },
+      "babel needs a unique name for separate instances but same plugin",
+    ],
   ],
 };
 
