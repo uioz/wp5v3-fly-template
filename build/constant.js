@@ -2,6 +2,7 @@ const path = require("path");
 
 exports.CONTEXT = path.join(__dirname, "..");
 
+exports.OUTPUT_DIR = "./dist";
 exports.OUTPUT_PUBLIC_PATH = "/";
 exports.DEVSERVER_PUBLIC_PATH = "/";
 exports.DEVSERVER_PORT = 8080;

@@ -1,7 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
-const { CACHE_DIR } = require("./constant");
+const { CACHE_DIR, OUTPUT_DIR } = require("./constant");
 
 exports.BaseConfig = class BaseConfig {
   constructor(context, outputPublicPath) {
@@ -15,7 +15,7 @@ exports.BaseConfig = class BaseConfig {
   output() {
     this.config.output = {
       publicPath: this.outputPublicPath,
-      path: path.join(this.context, "dist"),
+      path: path.join(this.context, OUTPUT_DIR),
       chunkFilename: "[name].[contenthash].js",
       filename: "[name].[contenthash].bundle.js",
       clean: true,
