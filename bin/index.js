@@ -14,7 +14,10 @@ program
   )
   .usage("<command> [options]");
 
-program.command("build").action(require("../build/build"));
+program
+  .command("build")
+  .option("-c, --compress", "compressing files after build", false)
+  .action(require("../build/build"));
 
 program.command("serve").action(require("../build/serve"));
 

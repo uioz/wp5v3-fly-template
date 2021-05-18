@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 
 const { OUTPUT_PUBLIC_PATH, CONTEXT, PROD } = require("./constant");
 
@@ -11,10 +12,11 @@ class Config extends BaseConfig {
    *
    * @param {any} param0
    */
-  constructor({ context, outputPublicPath, mode }) {
+  constructor({ context, outputPublicPath, mode }, options) {
     super(context, outputPublicPath);
 
     this.config.mode = mode;
+    this.options = options;
   }
 
   module() {
@@ -39,6 +41,10 @@ class Config extends BaseConfig {
 
   plugins() {
     super.plugins();
+
+    if (this.options.compress) {
+      this.config.plugins.push(new CompressionPlugin());
+    }
 
     this.config.plugins.push(
       new MiniCssExtractPlugin({
@@ -81,11 +87,14 @@ class Config extends BaseConfig {
 module.exports = function (options) {
   process.env.NODE_ENV = PROD;
 
-  new Config({
-    context: CONTEXT,
-    outputPublicPath: OUTPUT_PUBLIC_PATH,
-    mode: PROD,
-  })
+  new Config(
+    {
+      context: CONTEXT,
+      outputPublicPath: OUTPUT_PUBLIC_PATH,
+      mode: PROD,
+    },
+    options
+  )
     .generate()
     .build();
 };
