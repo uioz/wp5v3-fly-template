@@ -22,6 +22,7 @@
     "autoprefixer": "^10.2.5",
     "axios": "^0.21.1",
     "axios-cache-adapter": "^2.7.3",
+    "axios-pluginify": "^1.1.1",
     "babel-loader": "^8.2.2",
     "babel-plugin-import": "^1.13.3",
     "commander": "^7.2.0",
