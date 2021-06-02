@@ -1,5 +1,5 @@
 {
-  "name": "vue3-setup",
+  "name": "wp5v3-fly-template",
   "version": "1.0.0",
   "description": "",
   "bin": "bin/index.js",
@@ -9,8 +9,12 @@
     "dev": "webpack serve --mode development"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": {
+    "name": "uioz",
+    "email": "hzxbpld@163.com",
+    "url": "https://github.com/uioz/wp5v3-fly-template"
+  },
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.14.0",
     "@babel/plugin-transform-runtime": "^7.13.15",
