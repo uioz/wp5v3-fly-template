@@ -74,6 +74,9 @@ typings/
 .env.dev
 .env.prod
 
+# tomlenv local file
+env.local.toml
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 

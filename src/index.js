@@ -12,3 +12,7 @@ createApp({
   .use(store)
   .use(router)
   .mount("body");
+
+// variables below from tomlenv
+console.log(mode);
+console.log(type);

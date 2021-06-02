@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { WebpackTomlenvPlugin } = require("webpack-tomlenv-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
 const { CACHE_DIR, OUTPUT_DIR } = require("./constant");
 
@@ -104,6 +105,7 @@ exports.BaseConfig = class BaseConfig {
 
   plugins() {
     this.config.plugins = [
+      new WebpackTomlenvPlugin(),
       new HtmlWebpackPlugin({
         title: require("../package.json").name,
         template: "./public/index.html",
