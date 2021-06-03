@@ -121,6 +121,8 @@ class Config extends BaseConfig {
     this.config.externals = {
       vue: "Vue",
       "vue-router": "VueRouter",
+      vuex: "Vuex",
+      axios: "axios",
     };
 
     return this;
