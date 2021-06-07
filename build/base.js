@@ -29,7 +29,7 @@ exports.BaseConfig = class BaseConfig {
       rules: [
         {
           test: /\.m?js$/,
-          exclude: /node_modules/,
+          exclude: [/node_modules/i, /static/i],
           use: {
             loader: "babel-loader",
             options: {
@@ -46,7 +46,7 @@ exports.BaseConfig = class BaseConfig {
         {
           test: /\.(png|svg|jpg|jpeg|gif|woff|woff2|eot|ttf|otf)$/i,
           type: "asset",
-          exclude: /static/,
+          exclude: /static/i,
           parser: {
             dataUrlCondition: {
               maxSize: 4 * 1024, // 4kb
