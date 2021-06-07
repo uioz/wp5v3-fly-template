@@ -210,7 +210,7 @@ postcss 只使用了 `autoprefixer`.
 
 `babel` 以及 `webpack` 和 `dllPlugin` 输出的内容都放置到了 `.cache` 目录下执行 `npx . clean` 会把这个目录清空, 当出现编译问题的时候我建议你使用这条命令试试.
 
-使用了 `webpack` 的文件系统缓存而不是内存缓存, 这样做可以加快 `webpack` 的首次启动编译时间, 尤其是在使用 SSD 的情况下. 
+使用了 `webpack` 的文件系统缓存而不是内存缓存, 这样做可以加快 `webpack` 的首次启动编译时间, 尤其是在使用 SSD 的情况下.
 
 # 如何定制
 
@@ -221,6 +221,8 @@ postcss 只使用了 `autoprefixer`.
 脚本的启动入口在 `bin/index.js` 中, 它会执行 `build` 目录下的脚本, 可以修改它来实现额外的参数传入.
 
 # known issue(必读)
+
+`@icon-park` 与 `webpack.externals` 配置冲突, 如果你不喜欢这个类库那么直接移除就好, 否则就需要按照下面的 issues 手动修改才可以运行.
 
 > https://github.com/bytedance/IconPark/issues/227
 
