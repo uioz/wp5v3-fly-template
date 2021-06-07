@@ -7,8 +7,8 @@ exports.OUTPUT_PUBLIC_PATH = "/";
 exports.DEVSERVER_PUBLIC_PATH = "/";
 exports.DEVSERVER_PORT = 8080;
 exports.DEVSERVER_HOST = "localhost";
-exports.DEVSERVER_BASE = "static";
-exports.DEVSERVER_BASE_PUBLIC_PATH = "/";
+exports.DEVSERVER_CONTENT_BASE = "static";
+exports.DEVSERVER_CONTENT_BASE_PUBLIC_PATH = "/static";
 
 exports.DEV = "development";
 exports.PROD = "production";

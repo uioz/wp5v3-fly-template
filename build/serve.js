@@ -8,9 +8,9 @@ const {
   DEV,
   CONTEXT,
   OUTPUT_PUBLIC_PATH,
-  DEVSERVER_BASE_PUBLIC_PATH,
+  DEVSERVER_CONTENT_BASE_PUBLIC_PATH,
   DEVSERVER_PUBLIC_PATH,
-  DEVSERVER_BASE,
+  DEVSERVER_CONTENT_BASE,
   DEVSERVER_PORT,
   DEVSERVER_HOST,
   DLL_OUTPUT_PATH,
@@ -141,8 +141,8 @@ class Config extends BaseConfig {
     }
 
     new Server(webpack(this.config), {
-      contentBase: path.join(this.context, DEVSERVER_BASE),
-      contentBasePublicPath: DEVSERVER_BASE_PUBLIC_PATH,
+      contentBase: path.join(this.context, DEVSERVER_CONTENT_BASE),
+      contentBasePublicPath: DEVSERVER_CONTENT_BASE_PUBLIC_PATH,
       publicPath: DEVSERVER_PUBLIC_PATH,
       historyApiFallback: true,
       hot: true,
