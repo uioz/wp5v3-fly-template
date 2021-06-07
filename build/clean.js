@@ -1,6 +1,6 @@
 const { rm } = require("fs/promises");
 const path = require("path");
-const { CACHE_DIR, OUTPUT_DIR, CONTEXT } = require("./constant");
+const { CACHE_DIR, OUTPUT_DIR, CONTEXT } = require("./constants");
 
 async function command() {
   await Promise.all([

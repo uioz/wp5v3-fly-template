@@ -2,7 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { WebpackTomlenvPlugin } = require("webpack-tomlenv-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
-const { CACHE_DIR, OUTPUT_DIR, CONTEXT } = require("./constant");
+const { CACHE_DIR, OUTPUT_DIR, CONTEXT } = require("./constants");
 
 exports.BaseConfig = class BaseConfig {
   constructor(context, outputPublicPath) {

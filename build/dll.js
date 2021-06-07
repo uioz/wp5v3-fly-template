@@ -6,7 +6,7 @@ const {
   DEV,
   DLL_OUTPUT_PATH,
   DLL_MANIFEST_NAME,
-} = require("./constant");
+} = require("./constants");
 
 const config = {
   mode: "development",

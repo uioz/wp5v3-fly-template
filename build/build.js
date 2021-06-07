@@ -3,7 +3,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 
-const { OUTPUT_PUBLIC_PATH, CONTEXT, PROD } = require("./constant");
+const { OUTPUT_PUBLIC_PATH, CONTEXT, PROD } = require("./constants");
 
 const { BaseConfig } = require("./base");
 

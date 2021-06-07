@@ -1,7 +1,7 @@
 // https://github.com/babel/babel-loader
 // https://babeljs.io/docs/en/config-files#config-function-api
 
-const { DEV } = require("./build/constant");
+const { DEV } = require("./build/constants");
 
 const baseConfig = {
   presets: ["@babel/preset-env"],

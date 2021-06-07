@@ -15,7 +15,7 @@ const {
   DEVSERVER_HOST,
   DLL_OUTPUT_PATH,
   DLL_MANIFEST_NAME,
-} = require("./constant");
+} = require("./constants");
 
 const { BaseConfig } = require("./base");
 
