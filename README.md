@@ -210,6 +210,8 @@ postcss 只使用了 `autoprefixer`.
 
 `babel` 以及 `webpack` 和 `dllPlugin` 输出的内容都放置到了 `.cache` 目录下执行 `npx . clean` 会把这个目录清空, 当出现编译问题的时候我建议你使用这条命令试试.
 
+使用了 `webpack` 的文件系统缓存而不是内存缓存, 这样做可以加快 `webpack` 的首次启动编译时间, 尤其是在使用 SSD 的情况下. 
+
 # 如何定制
 
 你可以配置 `build/constants.js` 来修改诸如端口之类的简单配置.
