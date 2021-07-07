@@ -1,0 +1,8 @@
+/* need help? check this https://tailwindcss.com/docs/installation#include-tailwind-in-your-css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.i-icon svg {
+  display: inline;
+}

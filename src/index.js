@@ -1,3 +1,4 @@
+import "./assets/index.pure.css";
 import { RouterView } from "vue-router";
 import { createApp, h } from "vue";
 import router from "./router";

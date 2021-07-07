@@ -13,7 +13,7 @@
 - vue-router
 - sass
 - postcss
-- element-plus
+- tailwindcss
 - @icon-park
 - axios
 

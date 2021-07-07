@@ -15,16 +15,6 @@ const baseConfig = {
     [
       "import",
       {
-        libraryName: "element-plus",
-        customStyleName: (name) => {
-          name = name.slice(3);
-          return `element-plus/lib/theme-chalk/el-${name}.css`;
-        },
-      },
-    ],
-    [
-      "import",
-      {
         libraryName: "@icon-park/vue-next",
         libraryDirectory: "es/icons",
         camel2DashComponentName: false,

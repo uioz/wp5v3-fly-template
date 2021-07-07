@@ -29,7 +29,6 @@ class Config extends BaseConfig {
     const styleIndex = rules.findIndex((item) => item.test.test("test.css"));
 
     if (styleIndex >= 0) {
-      rules[styleIndex].use.push("postcss-loader");
       // to replace style-loader to MiniCssExtractPlugin.loader
       rules[styleIndex].use[0] = MiniCssExtractPlugin.loader;
       // this for css-loader

@@ -55,13 +55,14 @@ exports.BaseConfig = class BaseConfig {
         },
         {
           test: /(\.css|\.scss)$/i,
-          include: [/[\\/]src[\\/]/i, /element-plus/i],
+          include: [/[\\/]src[\\/]/i],
           use: [
             "style-loader",
             {
               loader: "css-loader",
               options: {
-                importLoaders: 1,
+                importLoaders: 2,
+                sourceMap: false,
                 modules: {
                   // https://github.com/webpack-contrib/css-loader#localidentname
                   localIdentName: "[path][name]__[local]",
@@ -81,6 +82,13 @@ exports.BaseConfig = class BaseConfig {
               loader: "sass-loader",
               options: {
                 webpackImporter: false,
+                sourceMap: false,
+              },
+            },
+            {
+              loader: "postcss-loader",
+              options: {
+                sourceMap: false,
               },
             },
           ],
