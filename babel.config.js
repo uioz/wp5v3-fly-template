@@ -18,7 +18,7 @@ const baseConfig = {
         libraryName: "element-plus",
         customStyleName: (name) => {
           name = name.slice(3);
-          return `element-plus/lib/theme-chalk/el-${name}.css`;
+          return `element-theme-tailwind/dist/el-${name}.css`;
         },
       },
     ],

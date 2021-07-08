@@ -55,7 +55,7 @@ exports.BaseConfig = class BaseConfig {
         },
         {
           test: /(\.css|\.scss)$/i,
-          include: [/[\\/]src[\\/]/i, /element-plus/i],
+          include: [/[\\/]src[\\/]/i, /element-theme-tailwind/i],
           use: [
             "style-loader",
             {
@@ -128,11 +128,11 @@ exports.BaseConfig = class BaseConfig {
   }
 
   cache() {
-    this.config.cache = {
-      type: "filesystem",
-      cacheDirectory: path.join(this.context, CACHE_DIR),
-      maxAge: 604800000, // a week
-    };
+    // this.config.cache = {
+    //   type: "filesystem",
+    //   cacheDirectory: path.join(this.context, CACHE_DIR),
+    //   maxAge: 604800000, // a week
+    // };
 
     return this;
   }

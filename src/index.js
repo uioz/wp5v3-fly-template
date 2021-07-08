@@ -1,3 +1,4 @@
+import "element-theme-tailwind/dist/base.css";
 import { RouterView } from "vue-router";
 import { createApp, h } from "vue";
 import router from "./router";
