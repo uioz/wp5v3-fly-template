@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Index from "./views/index/index.vue";
-import Home from "./views/home/index.vue";
+import Text from "./views/text/index.vue";
+import Form from "./views/form/index.vue";
 import TestLayout from "./views/test/layout.vue";
 import TestIndex from "./views/test/index.vue";
 import TestAside from "./views/test/aside.vue";
@@ -15,8 +16,12 @@ export default createRouter({
       component: Index,
     },
     {
-      path: "/home",
-      component: Home,
+      path: "/text",
+      component: Text,
+    },
+    {
+      path: "/form",
+      component: Form,
     },
     {
       path: "/test",
