@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import Index from "./views/index/index.vue";
 import Text from "./views/text/index.vue";
 import Form from "./views/form/index.vue";
+import Buttons from "./views/buttons/index.vue";
+import Dialog from "./views/dialog/index.vue";
 import TestLayout from "./views/test/layout.vue";
 import TestIndex from "./views/test/index.vue";
 import TestAside from "./views/test/aside.vue";
@@ -22,6 +24,14 @@ export default createRouter({
     {
       path: "/form",
       component: Form,
+    },
+    {
+      path: "/buttons",
+      component: Buttons,
+    },
+    {
+      path: "/dialog",
+      component: Dialog,
     },
     {
       path: "/test",
