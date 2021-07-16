@@ -1,11 +1,13 @@
 <template>
   <div>
     <el-button type="primary" @click="openMessageBox">MessageBox</el-button>
+    <hr />
+    <el-button type="primary" @click="openMessage">Message</el-button>
   </div>
 </template>
 <script>
 import { defineComponent } from "vue";
-import { ElDialog, ElButton, ElMessageBox } from "element-plus";
+import { ElDialog, ElButton, ElMessageBox, ElMessage } from "element-plus";
 
 export default defineComponent({
   components: {
@@ -24,6 +26,9 @@ export default defineComponent({
             });
           },
         });
+      },
+      openMessage() {
+        ElMessage("只是一条消息提示");
       },
     };
   },
