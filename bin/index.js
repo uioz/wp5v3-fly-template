@@ -17,9 +17,15 @@ program
 program
   .command("build")
   .option("-c, --compress", "compressing files after build", false)
+  .option("-C, --no-cache", "Don't use filesystem cache while bundling")
+  .option("-D, --no-dll", "Don't use dllPlugin while bundling")
   .action(require("../build/build"));
 
-program.command("serve").action(require("../build/serve"));
+program
+  .command("serve")
+  .option("-C, --no-cache", "Don't use filesystem cache while bundling")
+  .option("-D, --no-dll", "Don't use dllPlugin while bundling")
+  .action(require("../build/serve"));
 
 program.command("gen-dll").action(require("../build/dll"));
 

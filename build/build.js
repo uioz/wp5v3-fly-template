@@ -82,17 +82,19 @@ class Config extends BaseConfig {
   }
 }
 
-module.exports = function (options) {
+module.exports = async function ({ cache, dll, ...restOptions }) {
   process.env.NODE_ENV = PROD;
 
-  new Config(
-    {
-      context: CONTEXT,
-      outputPublicPath: OUTPUT_PUBLIC_PATH,
-      mode: PROD,
-    },
-    options
-  )
-    .generate()
-    .build();
+  (
+    await new Config(
+      {
+        context: CONTEXT,
+        outputPublicPath: OUTPUT_PUBLIC_PATH,
+        mode: PROD,
+        cache,
+        dll,
+      },
+      restOptions
+    ).generate()
+  ).build();
 };

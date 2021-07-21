@@ -2,12 +2,22 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { WebpackTomlenvPlugin } = require("webpack-tomlenv-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
-const { CACHE_DIR, OUTPUT_DIR, CONTEXT } = require("./constants");
+const {
+  CACHE_DIR,
+  OUTPUT_DIR,
+  CONTEXT,
+  DLL_OUTPUT_PATH,
+  DLL_MANIFEST_NAME,
+} = require("./constants");
+const webpack = require("webpack");
+const DllGenerator = require("./dll");
 
 exports.BaseConfig = class BaseConfig {
-  constructor({ context, outputPublicPath, mode }) {
+  constructor({ context, outputPublicPath, mode, cache, dll }) {
     this.context = context;
     this.outputPublicPath = outputPublicPath;
+    this.usingLocalCache = cache;
+    this.usingDllPlugin = dll;
     this.config = {
       context,
       mode,
@@ -128,6 +138,12 @@ exports.BaseConfig = class BaseConfig {
     return this;
   }
 
+  externals() {
+    this.config.externals = {};
+
+    return this;
+  }
+
   cache() {
     this.config.cache = {
       type: "filesystem",
@@ -138,8 +154,37 @@ exports.BaseConfig = class BaseConfig {
     return this;
   }
 
-  generate() {
-    this.output().module().optimization().resolve().plugins().cache();
+  async dllPlugin() {
+    if (!(await DllGenerator.hasDll())) {
+      await DllGenerator();
+      Object.assign(this.config.externals, {
+        vue: "Vue",
+        "vue-router": "VueRouter",
+        vuex: "Vuex",
+        axios: "axios",
+      });
+
+      this.config.plugins.push(
+        new webpack.DllReferencePlugin({
+          context: path.join(CONTEXT, DLL_OUTPUT_PATH),
+          manifest: path.join(CONTEXT, DLL_OUTPUT_PATH, DLL_MANIFEST_NAME),
+          name: "vendor_lib",
+        })
+      );
+    }
+  }
+
+  async generate() {
+    this.output().module().resolve().plugins().optimization().externals();
+
+    if (this.usingLocalCache) {
+      this.cache();
+    }
+
+    if (this.usingDllPlugin) {
+      await this.dllPlugin();
+    }
+
     return this;
   }
 };

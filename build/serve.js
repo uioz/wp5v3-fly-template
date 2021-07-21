@@ -1,8 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const Server = require("webpack-dev-server");
-const DllGenerator = require("./dll");
-const webpackCdnPlugin = require("webpack-cdn-plugin");
+// const webpackCdnPlugin = require("webpack-cdn-plugin");
 
 const {
   DEV,
@@ -13,8 +12,6 @@ const {
   DEVSERVER_CONTENT_BASE,
   DEVSERVER_PORT,
   DEVSERVER_HOST,
-  DLL_OUTPUT_PATH,
-  DLL_MANIFEST_NAME,
 } = require("./constants");
 
 const { BaseConfig } = require("./base");
@@ -53,42 +50,43 @@ class Config extends BaseConfig {
   plugins() {
     super.plugins();
 
-    this.config.plugins.push(
-      new webpack.DllReferencePlugin({
-        context: path.join(CONTEXT, DLL_OUTPUT_PATH),
-        manifest: path.join(CONTEXT, DLL_OUTPUT_PATH, DLL_MANIFEST_NAME),
-        name: "vendor_lib",
-      }),
-      new webpackCdnPlugin({
-        // 因为 DevServer 没有托管 node_modules
-        // 所以使用默认的生产环境配置从 CDN 上加载
-        // 替换为 jsdelivr
-        prodUrl: "https://cdn.jsdelivr.net/npm/:name@:version/:path",
-        modules: [
-          {
-            name: "vue",
-            var: "Vue",
-            path: "dist/vue.runtime.global.js",
-          },
-          {
-            name: "vue-router",
-            var: "VueRouter",
-            path: "dist/vue-router.global.js",
-          },
-          {
-            name: "vuex",
-            var: "Vuex",
-            path: "dist/vuex.global.js",
-          },
-          {
-            name: "axios",
-            var: "axios",
-            path: "dist/axios.min.js",
-          },
-        ],
-        publicPath: "/node_modules",
-      })
-    );
+    this.config.plugins
+      .push
+      // new webpack.DllReferencePlugin({
+      //   context: path.join(CONTEXT, DLL_OUTPUT_PATH),
+      //   manifest: path.join(CONTEXT, DLL_OUTPUT_PATH, DLL_MANIFEST_NAME),
+      //   name: "vendor_lib",
+      // }),
+      // new webpackCdnPlugin({
+      //   // 因为 DevServer 没有托管 node_modules
+      //   // 所以使用默认的生产环境配置从 CDN 上加载
+      //   // 替换为 jsdelivr
+      //   prodUrl: "https://cdn.jsdelivr.net/npm/:name@:version/:path",
+      //   modules: [
+      //     {
+      //       name: "vue",
+      //       var: "Vue",
+      //       path: "dist/vue.runtime.global.js",
+      //     },
+      //     {
+      //       name: "vue-router",
+      //       var: "VueRouter",
+      //       path: "dist/vue-router.global.js",
+      //     },
+      //     {
+      //       name: "vuex",
+      //       var: "Vuex",
+      //       path: "dist/vuex.global.js",
+      //     },
+      //     {
+      //       name: "axios",
+      //       var: "axios",
+      //       path: "dist/axios.min.js",
+      //     },
+      //   ],
+      //   publicPath: "/node_modules",
+      // })
+      ();
 
     return this;
   }
@@ -116,29 +114,14 @@ class Config extends BaseConfig {
     return this;
   }
 
-  externals() {
-    this.config.externals = {
-      vue: "Vue",
-      "vue-router": "VueRouter",
-      vuex: "Vuex",
-      axios: "axios",
-    };
-
-    return this;
-  }
-
-  generate() {
-    super.generate();
+  async generate() {
+    await super.generate();
 
     this.devtool().target();
     return this;
   }
 
-  async runServer() {
-    if (!(await DllGenerator.hasDll())) {
-      await DllGenerator();
-    }
-
+  runServer() {
     new Server(webpack(this.config), {
       contentBase: path.join(this.context, DEVSERVER_CONTENT_BASE),
       contentBasePublicPath: DEVSERVER_CONTENT_BASE_PUBLIC_PATH,
@@ -159,20 +142,22 @@ class Config extends BaseConfig {
   }
 }
 
-module.exports = function (options) {
+module.exports = async function ({ cache, dll, port, host }) {
   process.env.NODE_ENV = DEV;
 
-  new Config(
-    {
-      context: CONTEXT,
-      outputPublicPath: OUTPUT_PUBLIC_PATH,
-      mode: DEV,
-    },
-    {
-      port: options?.port ?? DEVSERVER_PORT,
-      host: options?.host ?? DEVSERVER_HOST,
-    }
-  )
-    .generate()
-    .runServer();
+  (
+    await new Config(
+      {
+        context: CONTEXT,
+        outputPublicPath: OUTPUT_PUBLIC_PATH,
+        mode: DEV,
+        cache,
+        dll,
+      },
+      {
+        port: port ?? DEVSERVER_PORT,
+        host: host ?? DEVSERVER_HOST,
+      }
+    ).generate()
+  ).runServer();
 };
