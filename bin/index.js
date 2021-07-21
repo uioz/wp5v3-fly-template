@@ -19,12 +19,14 @@ program
   .option("-c, --compress", "compressing files after build", false)
   .option("-C, --no-cache", "Don't use filesystem cache while bundling")
   .option("-D, --no-dll", "Don't use dllPlugin while bundling")
+  .option("--cdn", "Using webpack-cdn-plugin", false)
   .action(require("../build/build"));
 
 program
   .command("serve")
   .option("-C, --no-cache", "Don't use filesystem cache while bundling")
   .option("-D, --no-dll", "Don't use dllPlugin while bundling")
+  .option("--cdn", "Using webpack-cdn-plugin", false)
   .action(require("../build/serve"));
 
 program.command("gen-dll").action(require("../build/dll"));

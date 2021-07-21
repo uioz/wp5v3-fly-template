@@ -82,7 +82,7 @@ class Config extends BaseConfig {
   }
 }
 
-module.exports = async function ({ cache, dll, ...restOptions }) {
+module.exports = async function ({ cache, dll, cdn, ...restOptions }) {
   process.env.NODE_ENV = PROD;
 
   (
@@ -93,6 +93,7 @@ module.exports = async function ({ cache, dll, ...restOptions }) {
         mode: PROD,
         cache,
         dll,
+        cdn,
       },
       restOptions
     ).generate()

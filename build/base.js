@@ -11,13 +11,15 @@ const {
 } = require("./constants");
 const webpack = require("webpack");
 const DllGenerator = require("./dll");
+const webpackCdnPlugin = require("webpack-cdn-plugin");
 
 exports.BaseConfig = class BaseConfig {
-  constructor({ context, outputPublicPath, mode, cache, dll }) {
+  constructor({ context, outputPublicPath, mode, cache, dll, cdn }) {
     this.context = context;
     this.outputPublicPath = outputPublicPath;
     this.usingLocalCache = cache;
     this.usingDllPlugin = dll;
+    this.usingCdnPlugin = cdn;
     this.config = {
       context,
       mode,
@@ -174,6 +176,40 @@ exports.BaseConfig = class BaseConfig {
     }
   }
 
+  cdnPlugin() {
+    this.config.plugins.push(
+      new webpackCdnPlugin({
+        // 因为 DevServer 没有托管 node_modules
+        // 所以使用默认的生产环境配置从 CDN 上加载
+        // 替换为 jsdelivr
+        prodUrl: "https://cdn.jsdelivr.net/npm/:name@:version/:path",
+        modules: [
+          {
+            name: "vue",
+            var: "Vue",
+            path: "dist/vue.runtime.global.js",
+          },
+          {
+            name: "vue-router",
+            var: "VueRouter",
+            path: "dist/vue-router.global.js",
+          },
+          {
+            name: "vuex",
+            var: "Vuex",
+            path: "dist/vuex.global.js",
+          },
+          {
+            name: "axios",
+            var: "axios",
+            path: "dist/axios.min.js",
+          },
+        ],
+        publicPath: "/node_modules",
+      })
+    );
+  }
+
   async generate() {
     this.output().module().resolve().plugins().optimization().externals();
 
@@ -183,6 +219,10 @@ exports.BaseConfig = class BaseConfig {
 
     if (this.usingDllPlugin) {
       await this.dllPlugin();
+    }
+
+    if (this.usingCdnPlugin) {
+      this.cdnPlugin();
     }
 
     return this;
