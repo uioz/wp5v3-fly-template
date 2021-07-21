@@ -24,9 +24,8 @@ class Config extends BaseConfig {
    *
    * @param {any} param0
    */
-  constructor({ context, outputPublicPath, mode, port, host }) {
-    super(context, outputPublicPath);
-    this.config.mode = mode;
+  constructor(superOptions, { port, host }) {
+    super(superOptions);
     this.port = port;
     this.host = host;
   }
@@ -163,13 +162,17 @@ class Config extends BaseConfig {
 module.exports = function (options) {
   process.env.NODE_ENV = DEV;
 
-  new Config({
-    context: CONTEXT,
-    outputPublicPath: OUTPUT_PUBLIC_PATH,
-    mode: DEV,
-    port: options?.port ?? DEVSERVER_PORT,
-    host: options?.host ?? DEVSERVER_HOST,
-  })
+  new Config(
+    {
+      context: CONTEXT,
+      outputPublicPath: OUTPUT_PUBLIC_PATH,
+      mode: DEV,
+    },
+    {
+      port: options?.port ?? DEVSERVER_PORT,
+      host: options?.host ?? DEVSERVER_HOST,
+    }
+  )
     .generate()
     .runServer();
 };

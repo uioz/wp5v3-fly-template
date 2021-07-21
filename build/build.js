@@ -12,11 +12,9 @@ class Config extends BaseConfig {
    *
    * @param {any} param0
    */
-  constructor({ context, outputPublicPath, mode }, options) {
-    super(context, outputPublicPath);
-
-    this.config.mode = mode;
-    this.options = options;
+  constructor(superOptions, selfOptions) {
+    super(superOptions);
+    this.options = selfOptions;
   }
 
   module() {

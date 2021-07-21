@@ -5,11 +5,12 @@ const { VueLoaderPlugin } = require("vue-loader");
 const { CACHE_DIR, OUTPUT_DIR, CONTEXT } = require("./constants");
 
 exports.BaseConfig = class BaseConfig {
-  constructor(context, outputPublicPath) {
+  constructor({ context, outputPublicPath, mode }) {
     this.context = context;
     this.outputPublicPath = outputPublicPath;
     this.config = {
       context,
+      mode,
     };
   }
 
