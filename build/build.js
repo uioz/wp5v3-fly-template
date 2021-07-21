@@ -12,11 +12,9 @@ class Config extends BaseConfig {
    *
    * @param {any} param0
    */
-  constructor({ context, outputPublicPath, mode }, options) {
-    super(context, outputPublicPath);
-
-    this.config.mode = mode;
-    this.options = options;
+  constructor(superOptions, selfOptions) {
+    super(superOptions);
+    this.options = selfOptions;
   }
 
   module() {
@@ -84,17 +82,20 @@ class Config extends BaseConfig {
   }
 }
 
-module.exports = function (options) {
+module.exports = async function ({ cache, dll, cdn, ...restOptions }) {
   process.env.NODE_ENV = PROD;
 
-  new Config(
-    {
-      context: CONTEXT,
-      outputPublicPath: OUTPUT_PUBLIC_PATH,
-      mode: PROD,
-    },
-    options
-  )
-    .generate()
-    .build();
+  (
+    await new Config(
+      {
+        context: CONTEXT,
+        outputPublicPath: OUTPUT_PUBLIC_PATH,
+        mode: PROD,
+        cache,
+        dll,
+        cdn,
+      },
+      restOptions
+    ).generate()
+  ).build();
 };

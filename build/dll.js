@@ -12,7 +12,7 @@ const config = {
   mode: "development",
   devtool: "source-map",
   context: CONTEXT,
-  entry: ["vue", "vuex", "vue-router", "element-plus", "axios"],
+  entry: ["vue", "vuex", "vue-router", "axios"],
   resolve: {
     extensions: [".js"],
   },
