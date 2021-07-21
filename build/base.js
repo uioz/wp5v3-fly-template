@@ -2,14 +2,27 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { WebpackTomlenvPlugin } = require("webpack-tomlenv-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
-const { CACHE_DIR, OUTPUT_DIR, CONTEXT } = require("./constants");
+const {
+  CACHE_DIR,
+  OUTPUT_DIR,
+  CONTEXT,
+  DLL_OUTPUT_PATH,
+  DLL_MANIFEST_NAME,
+} = require("./constants");
+const webpack = require("webpack");
+const DllGenerator = require("./dll");
+const webpackCdnPlugin = require("webpack-cdn-plugin");
 
 exports.BaseConfig = class BaseConfig {
-  constructor(context, outputPublicPath) {
+  constructor({ context, outputPublicPath, mode, cache, dll, cdn }) {
     this.context = context;
     this.outputPublicPath = outputPublicPath;
+    this.usingLocalCache = cache;
+    this.usingDllPlugin = dll;
+    this.usingCdnPlugin = cdn;
     this.config = {
       context,
+      mode,
     };
   }
 
@@ -135,6 +148,12 @@ exports.BaseConfig = class BaseConfig {
     return this;
   }
 
+  externals() {
+    this.config.externals = {};
+
+    return this;
+  }
+
   cache() {
     this.config.cache = {
       type: "filesystem",
@@ -145,8 +164,75 @@ exports.BaseConfig = class BaseConfig {
     return this;
   }
 
-  generate() {
-    this.output().module().optimization().resolve().plugins().cache();
+  async dllPlugin() {
+    if (!(await DllGenerator.hasDll())) {
+      await DllGenerator();
+      Object.assign(this.config.externals, {
+        vue: "Vue",
+        "vue-router": "VueRouter",
+        vuex: "Vuex",
+        axios: "axios",
+      });
+
+      this.config.plugins.push(
+        new webpack.DllReferencePlugin({
+          context: path.join(CONTEXT, DLL_OUTPUT_PATH),
+          manifest: path.join(CONTEXT, DLL_OUTPUT_PATH, DLL_MANIFEST_NAME),
+          name: "vendor_lib",
+        })
+      );
+    }
+  }
+
+  cdnPlugin() {
+    this.config.plugins.push(
+      new webpackCdnPlugin({
+        // 因为 DevServer 没有托管 node_modules
+        // 所以使用默认的生产环境配置从 CDN 上加载
+        // 替换为 jsdelivr
+        prodUrl: "https://cdn.jsdelivr.net/npm/:name@:version/:path",
+        modules: [
+          {
+            name: "vue",
+            var: "Vue",
+            path: "dist/vue.runtime.global.js",
+          },
+          {
+            name: "vue-router",
+            var: "VueRouter",
+            path: "dist/vue-router.global.js",
+          },
+          {
+            name: "vuex",
+            var: "Vuex",
+            path: "dist/vuex.global.js",
+          },
+          {
+            name: "axios",
+            var: "axios",
+            path: "dist/axios.min.js",
+          },
+        ],
+        publicPath: "/node_modules",
+      })
+    );
+  }
+
+  async generate() {
+    this.output().module().resolve().plugins().optimization().externals();
+
+    if (this.usingLocalCache) {
+      this.cache();
+    }
+
+    if (this.usingDllPlugin) {
+      await this.dllPlugin();
+    }
+
+    if (this.usingCdnPlugin) {
+      this.cdnPlugin();
+    }
+
     return this;
   }
 };

@@ -38,21 +38,22 @@ npx . --help
 
 ```
 npx . serve
+npx . serve -D // 不使用 dllPlugin
+npx . serve -C // 不使用文件系统缓存
+npx . serve --cdn // 使用 webpack-cdn-plugin
 ```
 
 打包:
 
 ```
 npx . build
+npx . build -c // 同时输出 gz 格式的文件
+npx . build -D // 不使用 dllPlugin
+npx . build -C // 不使用文件系统缓存
+npx . build --cdn // 使用 webpack-cdn-plugin
 ```
 
-打包且输出 gz 格式:
-
-```
-npx . build -c
-```
-
-重写生成 dll 用于开发模式:
+重写生成 dll (基于 dllPlugin):
 
 ```
 npx . gen-dll
