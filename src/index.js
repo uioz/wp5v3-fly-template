@@ -2,17 +2,31 @@ import { RouterView } from "vue-router";
 import { createApp, h } from "vue";
 import router from "./router";
 import store from "./store";
+import singleSpaVue from "single-spa-vue";
 
-// axios is builtin
-// import axios from "axios";
+const vueLifecycles = singleSpaVue({
+  createApp,
+  appOptions: {
+    render: () => h(RouterView),
+  },
+  handleInstance: (rootVueInstance) => {
+    rootVueInstance.use(store).use(router);
+  },
+});
 
-createApp({
-  render: () => h(RouterView),
-})
-  .use(store)
-  .use(router)
-  .mount("body");
+export const bootstrap = vueLifecycles.bootstrap;
+export const mount = vueLifecycles.mount;
+export const unmount = vueLifecycles.unmount;
 
-// variables below from tomlenv
-console.log(mode);
-console.log(type);
+if (process.env.NODE_ENV === "development") {
+  if (globalThis.SERVICE_NAME_RUNTIME === SERVICE_NAME) {
+    createApp({
+      render: () => {
+        return h(RouterView);
+      },
+    })
+      .use(router)
+      .use(store)
+      .mount("body");
+  }
+}

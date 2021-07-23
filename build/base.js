@@ -13,6 +13,9 @@ const {
 const webpack = require("webpack");
 const DllGenerator = require("./dll");
 const webpackCdnPlugin = require("webpack-cdn-plugin");
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const ModuleFedSingleRuntime = require("./plugins/moduleFedSingleRuntime");
+const ExcludeAssetsPlugin = require('@ianwalter/exclude-assets-plugin')
 
 exports.BaseConfig = class BaseConfig {
   constructor({ context, outputPublicPath, mode, cache, dll, cdn }) {
@@ -123,6 +126,7 @@ exports.BaseConfig = class BaseConfig {
       new HtmlWebpackPlugin({
         title: NAME,
         template: "./public/index.html",
+        excludeAssets: [/remoteEntry.*.js/i],
       }),
       new VueLoaderPlugin(),
     ];
@@ -211,8 +215,28 @@ exports.BaseConfig = class BaseConfig {
     );
   }
 
+  moduleFederation() {
+    this.config.plugins.push(
+      new ModuleFedSingleRuntime(),
+      new ModuleFederationPlugin({
+        name: "serviceCore",
+        filename: "remoteEntry.js",
+        exposes: {
+          "./index": "./src/index.js",
+        },
+      }),
+      new ExcludeAssetsPlugin()
+    );
+  }
+
   async generate() {
-    this.output().module().resolve().plugins().optimization().externals();
+    this.output()
+      .module()
+      .resolve()
+      .plugins()
+      .optimization()
+      .externals()
+      .moduleFederation();
 
     if (this.usingLocalCache) {
       this.cache();
