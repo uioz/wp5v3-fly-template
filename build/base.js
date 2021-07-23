@@ -15,7 +15,7 @@ const DllGenerator = require("./dll");
 const webpackCdnPlugin = require("webpack-cdn-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const ModuleFedSingleRuntime = require("./plugins/moduleFedSingleRuntime");
-const ExcludeAssetsPlugin = require('@ianwalter/exclude-assets-plugin')
+const ExcludeAssetsPlugin = require('@ianwalter/exclude-assets-plugin');
 
 exports.BaseConfig = class BaseConfig {
   constructor({ context, outputPublicPath, mode, cache, dll, cdn }) {
@@ -219,7 +219,8 @@ exports.BaseConfig = class BaseConfig {
     this.config.plugins.push(
       new ModuleFedSingleRuntime(),
       new ModuleFederationPlugin({
-        name: "serviceCore",
+        // package.json name has compatibility issue
+        name: "Wp5v3FlyTemplate",
         filename: "remoteEntry.js",
         exposes: {
           "./index": "./src/index.js",
