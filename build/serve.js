@@ -49,7 +49,7 @@ class Config extends BaseConfig {
   optimization() {
     this.config.optimization = {
       // down below is webpack recommendation
-      runtimeChunk: true,
+      runtimeChunk: "single",
       removeAvailableModules: false,
       removeEmptyChunks: false,
       splitChunks: false,

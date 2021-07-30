@@ -8,6 +8,7 @@ const {
   CONTEXT,
   DLL_OUTPUT_PATH,
   DLL_MANIFEST_NAME,
+  NAME,
 } = require("./constants");
 const webpack = require("webpack");
 const DllGenerator = require("./dll");
@@ -128,7 +129,7 @@ exports.BaseConfig = class BaseConfig {
     this.config.plugins = [
       new WebpackTomlenvPlugin(),
       new HtmlWebpackPlugin({
-        title: require("../package.json").name,
+        title: NAME,
         template: "./public/index.html",
       }),
       new VueLoaderPlugin(),

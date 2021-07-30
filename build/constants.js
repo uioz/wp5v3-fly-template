@@ -17,3 +17,6 @@ exports.DLL_OUTPUT_PATH = "./.cache";
 exports.DLL_MANIFEST_NAME = "vender-manifest.json";
 
 exports.CACHE_DIR = "./.cache";
+
+exports.NAME = require(path.join(exports.CONTEXT, "package.json")).name;
+exports.VERSION = require(path.join(exports.CONTEXT, "package.json")).version;
