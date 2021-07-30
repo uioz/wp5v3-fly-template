@@ -1,34 +1,24 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Index from "./views/index/index.vue";
-import Home from "./views/home/index.vue";
-import TestLayout from "./views/test/layout.vue";
-import TestIndex from "./views/test/index.vue";
-import TestAside from "./views/test/aside.vue";
-import TestFooter from "./views/test/footer.vue";
-import TestHeader from "./views/test/header.vue";
+import IndexLayout from "./views/index/layout.vue";
+import IndexIndex from "./views/index/index.vue";
+import IndexAside from "./views/index/aside.vue";
+import IndexFooter from "./views/index/footer.vue";
+import IndexHeader from "./views/index/header.vue";
 
 export default createRouter({
   history: createWebHistory(),
   routes: [
     {
       path: "/",
-      component: Index,
-    },
-    {
-      path: "/home",
-      component: Home,
-    },
-    {
-      path: "/test",
-      component: TestLayout,
+      component: IndexLayout,
       children: [
         {
           path: "",
           components: {
-            default: TestIndex,
-            header: TestHeader,
-            aside: TestAside,
-            footer: TestFooter,
+            default: IndexIndex,
+            header: IndexHeader,
+            aside: IndexAside,
+            footer: IndexFooter,
           },
         },
       ],

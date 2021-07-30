@@ -1,28 +1,24 @@
 <template>
-  <tw-button>
-    <accept-email></accept-email>start</tw-button
-  >
+  <div :class="$style.index">
+    <p>
+      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et, laudantium.
+      Necessitatibus consequuntur odio quas mollitia culpa! Distinctio ducimus
+      maxime aut illo repudiandae, necessitatibus assumenda officiis sunt error
+      expedita? Dolorem, quisquam.
+    </p>
+  </div>
 </template>
+
 <script>
-import { defineComponent, computed } from "vue";
-import { useStore } from "vuex";
-import { AcceptEmail } from "@icon-park/vue-next";
-import TwButton from "@/components/tw-button.vue";
+import { defineComponent } from "vue";
 
-export default defineComponent({
-  name: "index",
-  components: {
-    AcceptEmail,
-    TwButton,
-  },
-  setup() {
-    const store = useStore();
-
-    return {
-      message: "hello world",
-      count: computed(() => store.state.count),
-    };
-  },
-});
+export default defineComponent(function TestIndex() {});
 </script>
-<style src="./index.pure.scss"></style>
+
+<style module lang="scss">
+.index {
+  p {
+    @apply lg:w-2/3 md:w-1/2 m-auto p-4 rounded-lg bg-primary-100 text-primary-400 border border-gray-50 shadow-lg hover:ring-indigo-200 ring-2;
+  }
+}
+</style>
